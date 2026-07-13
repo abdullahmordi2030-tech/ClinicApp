@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="clincApp/clinicApp.csproj" />
+  <Project Path="EfCore/EfCore.csproj" />
+</Solution>

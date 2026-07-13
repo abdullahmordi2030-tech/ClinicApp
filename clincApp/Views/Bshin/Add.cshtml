@@ -1,0 +1,27 @@
+﻿@model Bshin
+
+@{
+    ViewData["Title"] = "Add Bshin";
+}
+
+<form method="post">
+    <div class="form-floating mb-3">
+        <input asp-for="Name" class="form-control" />
+        <label asp-for="Name"></label>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input asp-for="Mrn" class="form-control" />
+        <label asp-for="Mrn"></label>
+        <span asp-validation-for="Mrn" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input asp-for="Enum" class="form-control" />
+        <label asp-for="Enum"></label>
+        <span asp-validation-for="Enum" class="text-danger"></span>
+    </div>
+    
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>

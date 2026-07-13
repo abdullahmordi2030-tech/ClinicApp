@@ -1,0 +1,118 @@
+﻿@model List<Bshin>
+
+@{
+    ViewData["Title"] = "Bshin";
+}
+
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>قائمة المرضى</h2>
+    <a class="btn btn-primary" asp-action="Add">
+        <i class="bi bi-plus-square"></i> Add New
+    </a>
+</div>
+
+
+<form method="get" asp-action="Index" class="row g-3 mb-4 p-3 bg-light rounded border">
+    <div class="col-md-5">
+        <label class="form-label font-weight-bold">ابحث باسم المريض</label>
+        <input type="text" name="Name" value="@ViewBag.SearchName" class="form-control" placeholder="اكتب الاسم هنا...">
+    </div>
+    <div class="col-md-4">
+        <label class="form-label font-weight-bold">رقم الملف (MRN)</label>
+        <input type="number" name="Mrn" value="@ViewBag.SearchMrn" class="form-control" placeholder="اكتب رقم الـ MRN...">
+    </div>
+    <div class="col-md-3 d-flex align-items-end gap-2">
+        <button type="submit" class="btn btn-success w-100">
+            <i class="bi bi-search"></i> بحث
+        </button>
+        <a asp-action="Index" class="btn btn-secondary w-100">إعادة تعيين</a>
+    </div>
+</form>
+
+
+<table class="table table-striped table-bordered mt-2">
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Mrn</th>
+            <th>Enum</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var B in Model)
+            {
+                <tr>
+                    <td>@B.Id</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@B.Id" class="fw-bold text-decoration-none">@B.Name</a>
+                    </td>
+                    <td>@B.Mrn</td>
+                    <td>@B.Enum</td>
+                    <td>
+                        <a class="btn btn-sm btn-secondary" asp-action="Update" asp-route-id="@B.Id">
+                            <i class="bi bi-pencil-square"></i> Update
+                        </a>
+                        <button class="btn btn-sm btn-danger btn-js-delete" data-id="@B.Id">
+                            <i class="bi bi-trash3-fill"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-danger py-4 fw-bold">لا توجد نتائج مطابقة للبحث الحالي.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@if (ViewBag.TotalPages > 1)
+{
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)" asp-route-Name="@ViewBag.SearchName" asp-route-Mrn="@ViewBag.SearchMrn">السابق</a>
+            </li>
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-Name="@ViewBag.SearchName" asp-route-Mrn="@ViewBag.SearchMrn">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)" asp-route-Name="@ViewBag.SearchName" asp-route-Mrn="@ViewBag.SearchMrn">التالي</a>
+            </li>
+        </ul>
+    </nav>
+}
+
+@section Scripts {
+    <script>
+        $(".btn-js-delete").on("click", function() {
+            var id = $(this).data("id");
+            var isConfirmed = confirm("Do you want to delete this Bshin?");
+
+            if (isConfirmed) {
+                $.ajax({
+                    url: "Bshin/Delete/" + id,
+                    success: () => {
+                        $(this).parents("tr").remove();
+                    },
+                    error: () => {
+                        alert("Failed to delete Bshin");
+                    }
+                });
+            }
+        });
+    </script>
+}
