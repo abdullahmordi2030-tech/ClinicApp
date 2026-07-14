@@ -1,13 +1,15 @@
 ﻿using clincApp.Models;
 using clincApp.ViewModles;
 using clinicApp.Models; 
-using clinicApp.ViewModles; 
+using clinicApp.ViewModles;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
 namespace ClincApp.Controllers
 {
+    [Authorize]
     public class BshinController : Controller
     {
       
@@ -39,7 +41,7 @@ namespace ClincApp.Controllers
                 query = query.Where(b => b.Mrn == vm.Mrn);
             }
 
-            // حساب الإجمالي والصفحات
+            
             int totalItems = query.Count();
             int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
