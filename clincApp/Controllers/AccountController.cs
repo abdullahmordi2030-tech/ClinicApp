@@ -10,7 +10,7 @@ namespace ClincApp.Controllers
         
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-
+        //abdulaah
         public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
             _signInManager = signInManager;
